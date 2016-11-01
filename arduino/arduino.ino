@@ -636,6 +636,11 @@
 // lower address, so that has to be corrected.
 // The register part "reg" is only used internally,
 // and are swapped in code.
+
+#include <MS5611.h>
+
+MS5611 ms5611;
+
 typedef union accel_t_gyro_union
 {
   struct
@@ -686,7 +691,10 @@ void setup()
   //    Clock source at internal 8MHz
   //    The device is in sleep mode.
 
- 
+ while(!ms5611.begin(MS5611_ULTRA_HIGH_RES))
+  {
+    delay(500);
+  }
  
   // Clear the 'sleep' bit to start the sensor.
   MPU6050_write_reg (MPU6050_PWR_MGMT_1, 0);
@@ -699,6 +707,11 @@ void loop()
   double dT;
   accel_t_gyro_union accel_t_gyro;
 
+  // Read true temperature & Pressure (with compensation)
+  double realTemperature = ms5611.readTemperature(true);
+  long realPressure = ms5611.readPressure(true);
+  double realAltitude = ms5611.getAltitude(realPressure);
+  
   // Read the raw values.
   // Read 14 bytes at once,
   // containing acceleration, temperature and gyro.
@@ -726,13 +739,17 @@ void loop()
   SWAP (accel_t_gyro.reg.z_gyro_h, accel_t_gyro.reg.z_gyro_l);
  
   dT = ( (double) accel_t_gyro.value.temperature + 12412.0) / 340.0;
-  Serial.print(dT, 1);
+  Serial.print(realTemperature);
   Serial.print(F(", "));
   Serial.print(accel_t_gyro.value.x_accel, DEC);
   Serial.print(F(", "));
   Serial.print(accel_t_gyro.value.y_accel, DEC);
   Serial.print(F(", "));
   Serial.print(accel_t_gyro.value.z_accel, DEC);
+  Serial.print(F(", "));
+  Serial.print(realPressure);
+  Serial.print(F(", "));
+  Serial.print(realAltitude);
   //Serial.print(F(", "));
   //Serial.print(accel_t_gyro.value.z_accel, DEC);
   
