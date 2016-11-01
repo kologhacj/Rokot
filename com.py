@@ -57,6 +57,5 @@ class COMPort():
 
 
 if __name__ == "__main__":
-   test = COMPort("com3",9600)
-   test.readBytes(30,False,True,"log.txt")
+    pass
 

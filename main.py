@@ -1,5 +1,4 @@
-import serial  # import Serial Library
-import numpy  # Import numpy
+from com import *
 import matplotlib.pyplot as plt  # import matplotlib library
 from drawnow import *
 
@@ -16,6 +15,10 @@ matrix = (
 (-60000,50000,"Accel Z",))
 
 need = 1
+
+test = COMPort("com3",9600)
+test.readBytes(30,False,True,"log.txt")
+
 
 def makeFig():  # Create a function that makes our desired plot
     plt.ylim(matrix[need][0] ,matrix[need][1] )
