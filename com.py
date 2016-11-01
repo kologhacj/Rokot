@@ -4,10 +4,8 @@ class COMPort():
     def __init__(self, port, bitrate):
         self.port = port
         self.bitrate = bitrate
-        try:
-            self.struct = serial.Serial(port, bitrate)
-        except:
-            raise("Connection error")
+        self.struct = serial.Serial(port, bitrate)
+
 
     def _serialGet(self):
         return self.struct
@@ -59,6 +57,6 @@ class COMPort():
 
 
 if __name__ == "__main__":
-    test = COMPort("com3", 9600)
-    test.readBytes(10, True, True, "filename.log")
+   test = COMPort("com3",9600)
+   test.readBytes(30,False,True,"log.txt")
 
