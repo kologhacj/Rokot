@@ -1,5 +1,4 @@
 import serial  # Import Serial Library
-import msvcrt
 
 class COMPort():
     def __init__(self, port, bitrate):
@@ -10,16 +9,31 @@ class COMPort():
         except:
             raise("Connection error")
 
-    def serialGet(self):
+    def _serialGet(self):
         return self.struct
 
     def serialWrite(self, file, struct  ):
+        """
+        This def write packages to file
+        :param file:
+        :param struct:
+        :return:
+        """
         fout = open(file, "w")
         fout.write(struct)
         fout.close()
 
-    def readBytes(self, count, write = False, filename = ""):
-        serial = self.serialGet() # получить данные из COMPORT в данный момент
+    def readBytes(self, count, array = False,write = False, filename = ""):
+        """
+        This def read com packages and print their
+        :param count:
+        :param array:
+        :param write:
+        :param filename:
+        :return:
+        """
+
+        serial = self._serialGet() # получить данные из COMPORT в данный момент
 
         i = 0
         writeFile = ""
@@ -27,13 +41,24 @@ class COMPort():
         while i < count:
             if (serial.inWaiting() > 0):
                 myData = serial.readline().decode("utf-8")
-                print(myData)
+                print( [myData, self.getTupleValues(myData)][array] )
                 writeFile += myData
                 i += 1
         if write:
             self.serialWrite(filename, writeFile)
 
+    def getTupleValues(self, bytes, sep  = ", " ):
+        """
+        This def return data packages in tuple-form
+        :param bytes:
+        :param sep:
+        :return:
+        """
+        return tuple(bytes.strip().split(sep))
+
+
 
 if __name__ == "__main__":
     test = COMPort("com3", 9600)
-    test.readBytes(5, True, "log1.txt")
+    test.readBytes(10, True, True, "filename.log")
+
