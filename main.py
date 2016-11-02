@@ -23,6 +23,9 @@ test = COMPort("com3",9600)
 test.readBytes(30,False,True,"log.txt")
 
 
+
+
+
 def makeFig():  # Create a function that makes our desired plot
     plt.ylim(matrix[need][0] ,matrix[need][1] )
     plt.xlim(-2, summ+2)

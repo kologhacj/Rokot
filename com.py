@@ -38,6 +38,7 @@ class COMPort():
 
         while i < count:
             if (serial.inWaiting() > 0):
+                print(serial.readline())
                 myData = serial.readline().decode("utf-8")
                 print( [myData, self.getTupleValues(myData)][array] )
                 writeFile += myData
@@ -52,10 +53,33 @@ class COMPort():
         :param sep:
         :return:
         """
-        return tuple(bytes.strip().split(sep))
+        return list(bytes.strip().split(sep))
+    def writeCoordinatesFromFile(self, fromf, to):
+
+        f = open(fromf, "r")
+        fz = open(to, "w")
+
+        sep = ", "
+        lst = 2
+
+        a = [i.split(sep) for i in f.readlines()]
+
+        i = 0
+
+        for i in range(len(a)):
+            if a[i][0] != "\n":
+                b = a[i][1:4]
+                for i in b:
+                    fz.write(i + " ")
+                fz.write("\n")
+
+        f.close()
+        fz.close()
+
 
 
 
 if __name__ == "__main__":
-    pass
-
+    test = COMPort("com3", 9600)
+    test.readBytes(10, False, True, "log.txt")
+    test.writeCoordinatesFromFile("log.txt", "coord.txt")
