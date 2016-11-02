@@ -35,14 +35,14 @@ COMport - class for receiving and primary data from COM ports
 The methods of this class:
 
 <b>def __init __ (self, port, bitrate):</b><br>
-        This def initialize an instance
-        : Param port: port to which you want to connect, for example, com4, tty5
-        : Return self.struct
+        This def initialize an instance<br>
+        : Param port: port to which you want to connect, for example, com4, tty5<br>
+        : Return self.struct<br>
         
 <b>def _serialGet (self):</b>
-        This def return serial data in this moment
-        : Return: str
-        : Return self.struct
+        This def return serial data in this moment<br>
+        : Return: str<br>
+        : Return self.struct<br>
 
 <b>def serialWrite (self, file, struct):</b>
         This def write packages to file
