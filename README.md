@@ -39,35 +39,34 @@ The methods of this class:
         : Param port: port to which you want to connect, for example, com4, tty5<br>
         : Return self.struct<br>
         
-<b>def _serialGet (self):</b>
+<b>def _serialGet (self):</b><br>
         This def return serial data in this moment<br>
         : Return: str<br>
         : Return self.struct<br>
 
 <b>def serialWrite (self, file, struct):</b>
-        This def write packages to file
-        : Param file: file, which is to record
-        : Param struct: the package that you want to record
-        : Return: void
+        This def write packages to file<br>
+        : Param file: file, which is to record<br>
+        : Param struct: the package that you want to record<br>
+        : Return: void<br>
         
         
-<b>def readBytes (self, count, array = False, write = False, filename = ""):</b>
-        This def read com packages and print their
-        : Param count: the number of packets that need to be read
-        : Param array: the output as an array
-        : Param write: write to the file
-        : Param filename: name of the file where to write the packets
-        : Return: void
+<b>def readBytes (self, count, array = False, write = False, filename = ""):</b><br>
+        This def read com packages and print their<br>
+        : Param count: the number of packets that need to be read<br>
+        : Param array: the output as an array<br>
+        : Param write: write to the file<br>
+        : Param filename: name of the file where to write the packets<br>
+        : Return: void<br>
         
-<b>def getTupleValues (self, bytes, sep = ","):</b>
-        This def return data packages in tuple-form
-        : Param bytes: string in which one packet is recorded
-        : Param sep: separator in a package
-        : Return: tuple
+<b>def getTupleValues (self, bytes, sep = ","):</b><br>
+        This def return data packages in tuple-form<br>
+        : Param bytes: string in which one packet is recorded<br>
+        : Param sep: separator in a package<br>
+        : Return: tuple<br>
         
-<b>def writeCoordinatesFromFile (self, fromf, to):</b>
-        This def get limited packages from file, filter it and write coordinates in
-        another file
-        : Param fromf: the file where data will be taken
-        : Param to: file, which will be recorded the coordinates
-        : Return: void
+<b>def writeCoordinatesFromFile (self, fromf, to):</b><br>
+        This def get limited packages from file, filter it and write coordinates in another file<br>
+        : Param fromf: the file where data will be taken<br>
+        : Param to: file, which will be recorded the coordinates<br>
+        : Return: void<br>
