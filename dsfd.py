@@ -16,12 +16,12 @@ for line in fin:
     y.append(_y)
     z.append(_z)
 
-ax.plot(x, y, z, zdir='z', label='zs=0, zdir=z')
-ax.set_xlim3d(-5000  ,20000)
-ax.set_ylim3d(-10000 ,10000)
-ax.set_zlim3d(-10000 ,50000)
+ax.plot(z, y, x, zdir='z', label='zs=0, zdir=z')
+ax.set_xlim3d(-50, 100)
+ax.set_ylim3d(-50, 100)
+ax.set_zlim3d(-20,50)
 #plt.ylim(-100000000000 ,10000000000000 )
 #plt.xlim(-100000000000 ,10000000000000 )
-#ax.view_init(90, -90)
+ax.view_init(90, -90)
 plt.show()
 

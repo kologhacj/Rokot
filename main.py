@@ -17,12 +17,10 @@ matrix = (
 (50,500,"Altitude",)
 )
 
-need = 1
+need = 0
 
 test = COMPort("com3",9600)
-test.readBytes(30,False,True,"log.txt")
-
-
+test.readBytes(300,False,True,"log.txt")
 
 
 

@@ -36,7 +36,11 @@ class COMPort():
         i = 0
         writeFile = ""
 
-        while i < count:
+        while i < count + 18:
+            if i <= 18:
+                myData = serial.readline()
+                i+=1
+                continue
             if (serial.inWaiting() > 0):
                 print(serial.readline())
                 myData = serial.readline().decode("utf-8")
@@ -81,5 +85,5 @@ class COMPort():
 
 if __name__ == "__main__":
     test = COMPort("com3", 9600)
-    test.readBytes(10, False, True, "log.txt")
+    test.readBytes(100, False, True, "log.txt")
     test.writeCoordinatesFromFile("log.txt", "coord.txt")
