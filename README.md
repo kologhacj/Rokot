@@ -50,7 +50,6 @@ The methods of this class:
         : Param struct: the package that you want to record<br>
         : Return: void<br>
         
-        
 <b>def readBytes (self, count, array = False, write = False, filename = ""):</b><br>
         This def read com packages and print their<br>
         : Param count: the number of packets that need to be read<br>
