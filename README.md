@@ -37,7 +37,7 @@ The methods of this class:
 <b>def __init __ (self, port, bitrate):</b><br>
         """
         initialize an instance><br>
-        : Param port: port to which you want to connect, for example,><br>
+        : Param port: port to which you want to connect, for example, <br>
         com4, tty5
         """
         return self.struct
