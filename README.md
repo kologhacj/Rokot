@@ -48,8 +48,8 @@ The methods of this class:
         This def write packages to file<br>
         : Param file: file, which is to record<br>
         : Param struct: the package that you want to record<br>
-        : Return: void<br>
-        
+        : Return: void<br><br>
+
 <b>def readBytes (self, count, array = False, write = False, filename = ""):</b><br>
         This def read com packages and print their<br>
         : Param count: the number of packets that need to be read<br>
