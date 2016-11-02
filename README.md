@@ -11,8 +11,11 @@ The computer part is written in Python
 <b>Used Python libraries:</b>
 
 Numpy
+
 PySerial
+
 Matplotlib
+
 Drawnow
 
 <b>Used Arduino IDE library:</b>
