@@ -21,8 +21,11 @@ Drawnow
 <b>Used Arduino IDE library:</b>
 
 GY-86
+
 HMC5883L
+
 MS5611
+
 ....
 
 <h1>Classes:</h1>
@@ -38,6 +41,7 @@ The methods of this class:
         com4, tty5
         "" "
         return self.struct
+        
 <b>def _serialGet (self):</b>
         "" "
         This def return serial data in this moment
@@ -52,6 +56,7 @@ The methods of this class:
         : Param struct: the package that you want to record
         : Return: void
         "" "
+        
 <b>def readBytes (self, count, array = False, write = False, filename = ""):</b>
         This def read com packages and print their
         : Param count: the number of packets that need to be read
@@ -59,6 +64,7 @@ The methods of this class:
         : Param write: write to the file
         : Param filename: name of the file where to write the packets
         : Return: void
+        
 <b>def getTupleValues (self, bytes, sep = ","):</b>
         "" "
         This def return data packages in tuple-form
@@ -66,6 +72,7 @@ The methods of this class:
         : Param sep: separator in a package
         : Return: tuple
         "" "
+        
 <b>def writeCoordinatesFromFile (self, fromf, to):</b>
         "" "
         This def get limited packages from file, filter it and write coordinates in
