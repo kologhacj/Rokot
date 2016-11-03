@@ -1,4 +1,5 @@
-import graph
-import com
+from graph import RokotGraph
 
-a = "ffggg"
+graphics = RokotGraph("log.txt")
+graphics.drawAllGraphsFromFile("Rokot Data")
+

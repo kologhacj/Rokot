@@ -113,5 +113,4 @@ class RokotGraph():
         plt.show()
 
 if __name__ == "__main__":
-    initialize = RokotGraph("log.txt")
-    initialize.drawOneGraph(0, "Rokot", 0, 40, "Temperature", "Degrees")
+    pass
