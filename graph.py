@@ -1,6 +1,6 @@
 i = 0
 xar = []
-out_temp, altitude, acc_x, acc_y, acc_z, = [], [], [], [], []
+out_temp, altitude, acc_x, acc_y, acc_z, pressure = [], [], [], [], [],[]
 
 class RokotGraph():
     def __init__(self, file):
@@ -75,15 +75,16 @@ class RokotGraph():
         thread = open(self.file, 'r')
 
         def animate(self):
-            global i, xar, out_temp, altitude, acc_x, acc_y, acc_z
+            global i, xar, out_temp, altitude, acc_x, acc_y, acc_z, pressure
             message = thread.readline()
             if len(message) > 5:
                 l = message.split(", ")
                 xyz = l[1:4]
                 l.append(xyz)
                 xar.append(int(i))
-                altitude.append(float(l[4]))
+                altitude.append(float(l[5]))
                 out_temp.append(float(l[0]))
+                pressure.append(float(l[4]))
                 acc_x.append(int(xyz[0]))
                 acc_y.append(int(xyz[0]))
                 acc_z.append(int(xyz[0]))
@@ -93,6 +94,7 @@ class RokotGraph():
                 plt.pause(pow(10, 10))
 
             egrid = (12, 12)
+
             ax1 = plt.subplot2grid(egrid, (0, 0), colspan=4, rowspan=4)
             ax1.set_title("Accel X")
             plt.ylim(-30, 40)
@@ -102,10 +104,26 @@ class RokotGraph():
             ax2.set_title("Accel Y")
             plt.ylim(-100, 100)
             ax2.plot(xar, acc_y, 'yo-')
+
             ax3 = plt.subplot2grid(egrid, (0, 8), colspan=4, rowspan=4)
             ax3.set_title("Accel Z")
             plt.ylim(-30, 40)
-            ax3.plot(xar, acc_z, 'ro-')
+            ax3.plot(xar, acc_z, 'go-')
+
+            ax4 = plt.subplot2grid(egrid, (6, 0), colspan=4, rowspan=4)
+            ax4.set_title("Temperature")
+            plt.ylim(0, 40)
+            ax4.plot(xar, out_temp, 'ro-')
+
+            ax5 = plt.subplot2grid(egrid, (6, 4), colspan=4, rowspan=4)
+            ax5.set_title("Pressure")
+            plt.ylim(99800,100200)
+            ax5.plot(xar, pressure, 'bo-')
+
+            ax6 = plt.subplot2grid(egrid, (6, 8), colspan=4, rowspan=4)
+            ax6.set_title("Altitude")
+            plt.ylim(-80, 150)
+            ax6.plot(xar, altitude, 'bo-')
 
             # TODO
             """Make all graphs"""
