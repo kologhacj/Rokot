@@ -117,7 +117,7 @@ class RokotGraph():
 
             ax5 = plt.subplot2grid(egrid, (6, 4), colspan=4, rowspan=4)
             ax5.set_title("Pressure")
-            plt.ylim(99800,100200)
+            plt.ylim(99800,100201)
             ax5.plot(xar, pressure, 'bo-')
 
             ax6 = plt.subplot2grid(egrid, (6, 8), colspan=4, rowspan=4)
