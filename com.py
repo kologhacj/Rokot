@@ -1,18 +1,39 @@
 import serial  # Import Serial Library
 
+
 class COMPort():
-    def __init__(self, port, baudrate):
+
+    def __init__(self, port: object, baudrate: object) -> object:
         self.port = port
         self.bitrate = baudrate
         self.struct = serial.Serial(port, baudrate)
+
     def _serialGet(self):
         return self.struct
-    def serialWrite(self, file, struct  ):
-        fout = open(file, "w")
+
+    def serialWrite(self, file: object, struct: object ):
+        import os
+
+        fout = open("temp.log", "w")
         fout.write(struct)
         fout.close()
-    def readBytes(self, count, array = False,write = False, filename = ""):
-        serial = self._serialGet() # получить данные из COMPORT в данный момент
+
+        fin = open("temp.log", "r")
+        fout = open(file, "w")
+
+        for line in fin:
+            if len(line) < 5:
+                continue
+            else:
+                fout.write(line)
+
+        fin.close()
+        fout.close()
+
+        os.remove("temp.log")
+
+    def readBytes(self, count: object, array: object = False, write: object = False, filename: object = ""):
+        serial = self._serialGet()  # получить данные из COMPORT в данный момент
 
         i = 0
         writeFile = ""
@@ -20,22 +41,23 @@ class COMPort():
         while i < count + 18:
             if i <= 18:
                 myData = serial.readline()
-                i+=1
+                i += 1
                 continue
             if (serial.inWaiting() > 0):
                 print(serial.readline())
                 myData = serial.readline().decode("utf-8")
-                print( [myData, self.getTupleValues(myData)][array] )
-            if len(myData) < 5:
-                continue
-            else:
+                if len(myData) < 5:
+                    continue
+                print([myData, self.getTupleValues(myData)][array])
                 writeFile += myData
                 i += 1
         if write:
             self.serialWrite(filename, writeFile)
-    def getTupleValues(self, bytes, sep  = ", " ):
-        return list(bytes.strip().split(sep))
-    def writeCoordinatesFromFile(self, fromf, to, sep = ", "):
+
+    def getTupleValues(self, bytes : object, sep=", "):
+        return tuple(bytes.strip().split(sep))
+
+    def writeCoordinatesFromFile(fromf, to: object, sep: object = ", ") -> object:
         f = open(fromf, "r")
         fz = open(to, "w")
 
@@ -55,7 +77,6 @@ class COMPort():
         f.close()
         fz.close()
 
+
 if __name__ == "__main__":
-    test = COMPort("com3", 9600)
-    test.readBytes(100, False, True, "log.txt")
-    test.writeCoordinatesFromFile("log.txt", "coord.txt")
+    pass

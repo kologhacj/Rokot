@@ -1,11 +1,14 @@
 i = 0
 xar = []
-out_temp, altitude, acc_x, acc_y, acc_z, pressure = [], [], [], [], [],[]
+out_temp, altitude, acc_x, acc_y, acc_z, pressure = [], [], [], [], [], []
+
 
 class RokotGraph():
     def __init__(self, file):
         self.file = file
-    def draw3dCoordGraphFromFile(self, view = (90,-90)):
+
+    def draw3dCoordGraphFromFile(self, GraphColor: object = "b", limits: object = (-100, 100, -100, 100, -80, 50),
+                                 view: object = (90, -90)) -> object:
         from mpl_toolkits.mplot3d import axes3d
         import numpy as np
         import matplotlib
@@ -19,19 +22,23 @@ class RokotGraph():
 
         for line in fin:
             array = line.split(", ")
+            print(array)
             _x, _y, _z = float(array[1]), float(array[2]), float(array[3])
             x.append(_x)
             y.append(_y)
             z.append(_z)
 
-        ax.plot(z, y, x, zdir='z', label='zs=0, zdir=z')
-        ax.set_xlim3d(-50, 100)
-        ax.set_ylim3d(-50, 100)
-        ax.set_zlim3d(-20, 50)
+        ax.plot(z, y, x, zdir='z', color=GraphColor, label='zs=0, zdir=z')
+        ax.set_xlim3d(limits[0], limits[1])
+        ax.set_ylim3d(limits[2], limits[3])
+        ax.set_zlim3d(limits[4], limits[5])
 
-        ax.view_init(view[0], view[1])
+        #ax.view_init(view[0], view[1])
         plt.show()
-    def drawOneGraph(self, need, title, minimal, maximum, ylabel, measure, color = 'ro-'):
+
+    def drawOneGraph(self, need: object, title: object, minimal: object, maximum: object, ylabel: object,
+                     measure: object,
+                     color: object = 'ro-') -> object:
         import matplotlib.pyplot as plt  # import matplotlib library
         from drawnow import drawnow
 
@@ -47,7 +54,7 @@ class RokotGraph():
             plt.title(title)  # Plot the title
             plt.grid(True)  # Turn the grid on
             plt.ylabel(ylabel)  # Set ylabels
-            plt.plot(tempF, color, label= measure)  # plot the temperature
+            plt.plot(tempF, color, label=measure)  # plot the temperature
             plt.legend(loc='upper left')
 
         for line in fin:
@@ -66,7 +73,8 @@ class RokotGraph():
 
         """for stable viewing"""
         plt.pause(pow(10, 10))
-    def drawAllGraphsFromFile(self, title, delay=1000):
+
+    def drawAllGraphsFromFile(self, title: object, delay: object = 1000) -> object:
         import matplotlib.pyplot as plt
         import matplotlib.animation as animation
 
@@ -80,7 +88,8 @@ class RokotGraph():
             if len(message) > 5:
                 l = message.split(", ")
                 xyz = l[1:4]
-                l.append(xyz)
+                # l.append(xyz)
+
                 xar.append(int(i))
                 altitude.append(float(l[5]))
                 out_temp.append(float(l[0]))
@@ -117,7 +126,7 @@ class RokotGraph():
 
             ax5 = plt.subplot2grid(egrid, (6, 4), colspan=4, rowspan=4)
             ax5.set_title("Pressure")
-            plt.ylim(99800,100201)
+            plt.ylim(99800, 100201)
             ax5.plot(xar, pressure, 'bo-')
 
             ax6 = plt.subplot2grid(egrid, (6, 8), colspan=4, rowspan=4)
@@ -127,8 +136,10 @@ class RokotGraph():
 
             # TODO
             """Make all graphs"""
+
         ani = animation.FuncAnimation(fig, animate, interval=delay)
         plt.show()
+
 
 if __name__ == "__main__":
     pass
