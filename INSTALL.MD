@@ -11,13 +11,12 @@ HOWTO RUN PROJECT?
 7. Goto Python-dir/Scripts/ and push pysync-rokot.bat 
 8. Open pysync-rokot.bat. Please wait :)
 
-
-For the avarage user:
-1. Install IDE PYCharm.
-2. Goto Rokot/Rokot-master/ and copy all files.
-3. Goto C:\Users\*YOUR USERNAME*\PycharmProjects. Create dir "Rokot" and put all files in this directory
+For the avarage user:<br>
+1. Install IDE PYCharm.<br>
+2. Goto Rokot/Rokot-master/ and copy all files.<br>
+3. Goto C:\Users\*YOUR USERNAME*\PycharmProjects. Create dir "Rokot" and put all files in this directory<br>
 4. Open IDE. Choose Rokot Project. Open in IDE "main.py"
-5. Run code by pressing hotkey Shift + F10
+5. Run code by pressing hotkey Shift + F10<br>
 
 
 
