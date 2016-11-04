@@ -1,0 +1,7 @@
+# .gitignore
+
+*.zip
+*.log
+*.bat
+*.jar
+*.ino
