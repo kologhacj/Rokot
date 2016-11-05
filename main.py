@@ -6,7 +6,6 @@ from graph import RokotGraph
 #test.readBytes(70, False, True, "log.txt")
 
 graphics = RokotGraph("log.txt")
-
 graphics.draw3dCoordGraphFromFile("g")
 #
 

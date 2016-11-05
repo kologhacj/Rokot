@@ -7,7 +7,7 @@ class RokotGraph():
     def __init__(self, file):
         self.file = file
 
-    def draw3dCoordGraphFromFile(self, GraphColor: object = "b", limits: object = (-100, 100, -100, 100, -80, 50),
+    def draw3dCoordGraphFromFile(self, GraphColor: object = "b", perpendiculars: object = False, limits: object = (-100, 100, -100, 100, -80, 50),
                                  view: object = (90, -90)) -> object:
         from mpl_toolkits.mplot3d import axes3d
         import numpy as np
@@ -16,7 +16,7 @@ class RokotGraph():
 
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
-
+        #t = fig.add_subplot(111, projection='3d')
         fin = open(self.file, "r")
         x, y, z = list(), list(), list()
 
@@ -29,6 +29,17 @@ class RokotGraph():
             z.append(_z)
 
         ax.plot(z, y, x, zdir='z', color=GraphColor, label='zs=0, zdir=z')
+
+        if perpendiculars:
+
+            ax.plot([z[0],z[0]], [y[0], limits[2]], [x[0],x[0]], zdir='z', color="r", label='zs=0, zdir=z')
+            ax.plot([z[0],z[0]], [y[0], y[0]], [x[0], limits[4]], zdir='z', color="r", label='zs=0, zdir=z')
+            ax.plot([z[0], limits[1]], [y[0], y[0]], [x[0], x[0]], zdir='z', color="r", label='zs=0, zdir=z')
+
+            ax.plot([z[-1], z[-1]], [y[-1], limits[2]], [x[-1], x[-1]], zdir='z', color="r", label='zs=0, zdir=z')
+            ax.plot([z[-1], z[-1]], [y[-1], y[-1]], [x[-1], limits[4]], zdir='z', color="r", label='zs=0, zdir=z')
+            ax.plot([z[-1], limits[1]], [y[-1], y[-1]], [x[-1], x[-1]], zdir='z', color="r", label='zs=0, zdir=z')
+
         ax.set_xlim3d(limits[0], limits[1])
         ax.set_ylim3d(limits[2], limits[3])
         ax.set_zlim3d(limits[4], limits[5])
