@@ -6,7 +6,7 @@ This project was created for the contest Can Sat 2017 in Russia.
 
 <h1>Documentation</h1>
 
-The computer part is written in Python
+The computer part is written on Python
 
 <b>Used Python libraries:</b>
 
