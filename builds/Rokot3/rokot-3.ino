@@ -8,6 +8,9 @@
 //#    МЕСТО   ДЛЯ   ПОДКЛЮЧЕНИЯ  БИБЛИОТЕК    #
 //##############################################
 
+//#                 OLY ♥                      #
+
+
 #include <Wire.h>
 #include <MS5611.h>
 #include <SPI.h>
@@ -64,6 +67,22 @@ inline float get_last_gyro_z_angle() { return last_gyro_z_angle; }
 float base_x_accel; float base_y_accel; float base_z_accel; // Акселерометр
 float base_x_gyro; float base_y_gyro; float base_z_gyro; // Гироскоп
 
+//##############################################################
+//#           ПОГРЕШНОСТИ ИЛИ НАЧАЛОСЬ КОЛХОЗЬЕ УТРО           #
+//##############################################################
+
+struct corellations {
+  int dTemp = 0; //Погрешность температуры, по умолчанию = 0
+  int dAngleX = 0; //Погрешность акселерометра по X, по умолчанию = 0 или +- 1
+  int dAngleY = -1; //Погрешность акселерометра по Y. Тут по-сложнее. При разных запусках выдает разные данные. Проверять при включении и исправление.
+  int dAngleZ = 0; //Погрешность акселерометра по Z, по умолчанию = 0 или +- 1
+  int dGyroX = 0; //Погрешность гироскопа по X, по умолчанию = 0 или +- 1
+  int dGyroY = 0; //Погрешность гироскопа по Y, по умолчанию = 0 или +- 1
+  int dGyroZ = 0; //Погрешность гироскопа по Z, по умолчанию = 0 или +- 1
+  int dPressure = 5; //Погрешность в давлении, по умолчанию = +-5
+  int dAltitude = -225; //Погрешность высоты, по умолчанию. По разным замерам подходит примерно -225 +-5
+} offsets;
+
 //##############################################
 //#            РАЗЛИЧНЫЕ НАСТРОЙКИ             #
 //##############################################
@@ -78,6 +97,7 @@ const int dTime = 10; // Теоретическая разница между з
 #define HELLO_LABEL "*****************************^-^********************************"
 
 
+
 void setup(){ 
   int error; uint8_t c;
   File myFile = SD.open(FILENAME, FILE_WRITE);
@@ -87,6 +107,7 @@ void setup(){
 
   if (dCalibrate){
     calibrate_sensors(); //#КАЛИБРОВКА#
+    Serial.print("Calibrating...");
   }
   
   while(!ms5611.begin(MS5611_ULTRA_HIGH_RES)){
@@ -163,7 +184,7 @@ void loop()
   float unfiltered_gyro_angle_z = gyro_z*dt + get_last_gyro_z_angle();
   
   // ПРИМЕНЕНИЕ ФИЛЬТРА ДЛЯ ВЫЯСНЕНИЯ ИЗМЕНЕНИЯ УГЛА
-  // ALPHA ЗАВИСИТ ОТ ЧАСТОТЫ ДИСКРЕТИЗАЦИИ ( БОД/С / 10000)
+  // ALPHA ЗАВИСИТ ОТ ЧАСТОТЫ ДИСКРЕТИЗАЦИИ (БОД/С / 10000)
   float alpha = baudrate / 10000;
   float angle_x = alpha*gyro_angle_x + (1.0 - alpha)*accel_angle_x;
   float angle_y = alpha*gyro_angle_y + (1.0 - alpha)*accel_angle_y;
@@ -171,30 +192,41 @@ void loop()
   
   // ОБНОВЛЕНИЕ СТАРЫХ ДАННЫХ
   set_last_read_angle_data(t_now, angle_x, angle_y, angle_z, unfiltered_gyro_angle_x, unfiltered_gyro_angle_y, unfiltered_gyro_angle_z);
+
+  /*
+  Wire.beginTransmission(HMC5883_ADDRESS);
+  Wire.write(0x03); //select register 3, X MSB register
+  Wire.endTransmission();
+ //Read data from each axis, 2 registers per axis
+  Wire.requestFrom(HMC5883_ADDRESS, 6);
+  if(6<=Wire.available()){
+    Xh = Wire.read()<<8; //X msb
+    Xh |= Wire.read(); //X lsb
+    Zh = Wire.read()<<8; //Z msb
+    Zh |= Wire.read(); //Z lsb
+    Yh = Wire.read()<<8; //Y msb
+    Yh |= Wire.read(); //Y lsb
+  }
+  БРЕЕЕЕЕЕЕЕЕЕЕДДДДДДДДДДИИИИИИИИИИИЩЕЕЕЕЕЕЕЕЕЕ
+  */
   
   // ОПЕРАЦИИ ЗАПИСИ И ВЫВОДА
   
   String dataString = "";
-  dataString += String(t_now);
-  dataString += ", ";
-  dataString += String(realTemperature,0);
-  dataString += ", ";
-  dataString += String(angle_x-1,0);
-  dataString += ", ";
-  dataString += String(angle_y,0);
-  dataString += ", ";
-  dataString += String(angle_z,0);
-  dataString += ", ";
-  dataString += String(gyro_x,0);
-  dataString += ", ";
-  dataString += String(gyro_y,0);
-  dataString += ", ";
-  dataString += String(gyro_z,0);
-  dataString += ", ";
-  dataString += String(realPressure);
-  dataString += ", ";
-  dataString += String(realAltitude);
-  dataString += "\n";
+  dataString += String(t_now); dataString += ", "; //ВРЕМЯ
+  dataString += String(realTemperature + offsets.dTemp ,0); dataString += ", "; //ТЕМПЕРАТУРА
+  dataString += String(angle_x + offsets.dAngleX,0); dataString += ", ";  //АКСЕЛЕРОМЕТР X
+  dataString += String(angle_y + offsets.dAngleY,0); dataString += ", "; //АКСЕЛЕРОМЕТР Y
+  dataString += String(angle_z + offsets.dAngleZ,0); dataString += ", "; //АКСЕЛЕРОМЕТР Z
+  dataString += String(gyro_x + offsets.dGyroX,0); dataString += ", "; //ГИРОСКОП X
+  dataString += String(gyro_y + offsets.dGyroY,0); dataString += ", "; //ГИРОСКОП Y
+  dataString += String(gyro_z + offsets.dGyroZ,0); dataString += ", "; //ГИРОСКОП Z
+  //dataString += String(Xh,0); dataString += ", "; //МАГНЕТОМЕТР X
+  //dataString += String(Yh,0); dataString += ", "; //МАГНЕТОМЕТР Y
+  //dataString += String(Zh,0); dataString += ", "; //МАГНЕТОМЕТР Z
+  
+  dataString += String(realPressure + offsets.dPressure); dataString += ", "; //ДАВЛЕНИЕ
+  dataString += String(realAltitude + offsets.dAltitude); dataString += "\n"; //ВЫСОТА (OFFSET:240!)
 
   if (serialOut){
     Serial.print(dataString);
