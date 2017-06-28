@@ -6,11 +6,13 @@ from graph import RokotGraph
 #test.readBytes(70, False, True, "log.txt")
 
 graphics = RokotGraph("log.txt")
-graphics.draw3dCoordGraphFromFile("g")
+#graphics.drawOneGraph(0,"Rokot data", 0, 50, "Temperature", "Degrees")
+graphics.drawVertSpeed()
 #
 
 """Simple examples
 graphics.drawAllGraphsFromFile("Rokot Data")
 graphics.drawOneGraph(0,"Rokot data", 0, 50, "Temperature", "Degrees")
 graphics.draw3dCoordGraphFromFile("")
+graphics.drawPeregruzki(True) 
 """
